@@ -1,6 +1,6 @@
 <template>
     <b-container>
-        <h1>JPRG</h1>
+        <h1>Juan Rojas</h1>
         <center>
             <div>
             <b-card
