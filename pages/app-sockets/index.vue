@@ -83,7 +83,8 @@ export default {
     },
 
     onMessage() {
-      this.socket.on("pushMessages", (data) => {
+      this.socket.on("push-messages", (data) => {
+        console.log("here");
         this.messages = data;
       });
     },
@@ -93,7 +94,7 @@ export default {
       event.preventDefault();
       try {
         console.log(this.socket);
-        this.socket.emit("onMessage", {
+        this.socket.emit("on-message", {
           username: this.username,
           message: this.message,
         });
