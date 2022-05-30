@@ -48,6 +48,7 @@ export default {
       try {
         const url = config.API_HOST + "/api/v1/login";
         let { data } = await this.$axios.post(url, this.credenciales);
+        
         if (data.ok == true) {
           let token = data.info.token;
           let rol = data.info.rol;
@@ -57,7 +58,7 @@ export default {
 
           //Redireccionar al usuario de acuerdo su rol a una página
           if (rol === "ADMIN") {
-            this.$router.push("/admin/dashboard");
+            this.$router.push("/nutrition-registry");
           } else {
             this.$router.push("/cliente/dashboard");
           }
