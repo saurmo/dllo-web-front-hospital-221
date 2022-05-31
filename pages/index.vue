@@ -58,11 +58,11 @@ export default {
 
           //Redireccionar al usuario de acuerdo su rol a una página
           if (rol === "ADMIN") {
-            this.$router.push("/nutrition-registry");
+            this.$router.push("/admin/dashboard");
           } else {
             this.$router.push("/cliente/dashboard");
           }
-
+          
           await this.$swal.fire("Bienvenido.", data.message, "success");
         } else {
           await this.$swal.fire("Error.", data.message, "warning");

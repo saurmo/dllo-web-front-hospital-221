@@ -1,27 +1,39 @@
 <template>
-  <div>
-    <b-navbar toggleable="lg" type="dark"  class="navAdmin">
-      <b-navbar-brand to="/admin/dashboard">Inicio</b-navbar-brand>
+  <div id="main">
+    <b-navbar toggleable="lg" type="dark" class="navAdmin">
+      <b-navbar-brand to="/admin/dashboard">
+        <b-img src="~/static/hospital.png" fluid class="logo"></b-img>
+        Home
+      </b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item to="/nutrition-registry">Nutrition Registries</b-nav-item>
-          <b-nav-item to="/modulo2">Módulo 2</b-nav-item>
-          <b-nav-item to="/modulo3">Módulo 3</b-nav-item>
+          <b-nav-item to="/nutritionRegistries">
+            <b-img src="~/static/journal.png" fluid class="icons"></b-img>
+            Nutrition Registries</b-nav-item
+          >
+          <b-nav-item to="/nutritionTypes">
+            <b-img src="~/static/plan.png" fluid class="icons"></b-img>
+            Nutrition Types</b-nav-item
+          >
+          <b-nav-item to="/rooms">
+            <b-img src="~/static/room.png" fluid class="icons"></b-img>
+            Romms</b-nav-item
+          >
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
-
           <b-nav-item-dropdown right>
             <!-- Using 'button-content' slot -->
             <template #button-content>
-              <em>Hola {{ nombre }}</em>
+              <b-avatar variant="info" src="~/static/user.png" size="md"></b-avatar>
+              <em>Hi, {{ nombre }}</em>
             </template>
-            <b-dropdown-item href="#">Mi Perfil</b-dropdown-item>
-            <b-dropdown-item @click="signout">Salir</b-dropdown-item>
+            <b-dropdown-item href="#">Profile</b-dropdown-item>
+            <b-dropdown-item @click="signout">Sign out</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
@@ -74,7 +86,21 @@ export default {
 };
 </script>
 <style>
-.navAdmin{
+.navAdmin {
   background-color: #78938a;
+}
+
+#main {
+  background-color: #92ba921c;
+}
+
+.logo {
+  width: 30px;
+  height: 30px;
+}
+
+.icons {
+  width: 20px;
+  height: 20px;
 }
 </style>
