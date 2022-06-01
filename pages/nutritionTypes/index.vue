@@ -2,7 +2,11 @@
   <b-container>
     <h1>Nutrition Types</h1>
     <!-- Creacion del formulario -->
-    <b-form @submit="createNutritionType" @reset="resetForm">
+    <b-form
+      @submit="createNutritionType"
+      @reset="resetForm"
+      class="nutrition-form"
+    >
       <div class="inputs">
         <div class="input-data">
           <b-form-group
@@ -59,16 +63,24 @@
       </div>
       <br />
       <!-- Actions -->
-      <b-button type="submit" variant="success" v-if="!editing"
+      <br />
+      <b-button type="submit" variant="success" v-if="!editing" class="buttons-form"
         >CREATE</b-button
       >
-      <b-button variant="success" v-else @click="updateNutritionType"
+      <b-button variant="success" v-else @click="updateNutritionType" class="buttons-form"
         >SAVE</b-button
       >
-      <b-button type="reset" variant="danger">CANCEL</b-button>
+      <b-button type="reset" variant="danger" class="buttons-form">CANCEL</b-button>
     </b-form>
 
-    <b-table bordered striped hover :items="nutritionTypes" :fields="headers" class="table-data">
+    <b-table
+      bordered
+      striped
+      hover
+      :items="nutritionTypes"
+      :fields="headers"
+      class="table-data"
+    >
       <template #cell(options)="row">
         <b-button
           size="sm"
@@ -220,7 +232,6 @@ export default {
 };
 </script>
 <style>
-
 .table-data {
   margin-top: 20px;
   border: solid;
@@ -238,5 +249,16 @@ export default {
 .inputs {
   display: flex;
   flex-wrap: wrap;
+}
+
+.nutrition-form {
+  background-color: #efefef;
+  border: solid;
+}
+
+.buttons-form {
+  margin: 25px;
+  padding-right: 50px;
+  
 }
 </style>
