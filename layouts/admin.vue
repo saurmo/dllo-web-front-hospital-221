@@ -7,9 +7,9 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item to="/modulo1">Módulo 1</b-nav-item>
-          <b-nav-item to="/modulo2">Módulo 2</b-nav-item>
-          <b-nav-item to="/modulo3">Módulo 3</b-nav-item>
+          <b-nav-item to="/medical-instruments">Instrumentos Médicos</b-nav-item>
+          <b-nav-item to="/medicaments">Medicamentos</b-nav-item>
+          <b-nav-item to="/invoices">Facturación</b-nav-item>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->

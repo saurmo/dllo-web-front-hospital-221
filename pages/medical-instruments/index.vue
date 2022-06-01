@@ -1,47 +1,37 @@
 <template>
   <b-container>
-    <h1>Medicamentos</h1>
+    <h1>Instrumentos Médicos</h1>
 
     <!-- Creacion del formulario -->
-    <b-form @submit="createMedicament" @reset="resetForm">
+    <b-form @submit="createMedicalInstruments" @reset="resetForm">
       <b-form-group
         id="input-group-1"
-        label="Nombre del medicamento"
+        label="Nombre del instrumento médico"
         label-for="input-1"
       >
         <b-form-input
           id="input-1"
-          v-model="medicament.medicamentName"
+          v-model="medicalInstrument.instrumentName"
           type="text"
-          placeholder="Ingrese nombre del medicamento"
+          placeholder="Ingrese nombre del instrumento médico"
           required
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group id="input-group-2" label="Concentración:" label-for="input-2">
+      <b-form-group id="input-group-2" label="Cantidad:" label-for="input-2">
         <b-form-input
           id="input-2"
-          v-model="medicament.concentration"
-          type="text"
-          placeholder="Ingresar concentración"
-          required
-        ></b-form-input>
-      </b-form-group>
-
-      <b-form-group id="input-group-3" label="Cantidad:" label-for="input-3">
-        <b-form-input
-          id="input-3"
-          v-model="medicament.quantity"
+          v-model="medicalInstrument.quantity"
           type="number"
           placeholder="Ingresar cantidad"
           required
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group id="input-group-4" label="Precio:" label-for="input-4">
+      <b-form-group id="input-group-3" label="Precio:" label-for="input-3">
         <b-form-input
-          id="input-4"
-          v-model="medicament.price"
+          id="input-3"
+          v-model="medicalInstrument.price"
           type="number"
           placeholder="Ingresar precio"
           required
@@ -51,21 +41,21 @@
       <br />
       <!-- Actions -->
       <b-button type="submit" variant="primary" v-if="!editing"
-        >Crear Medicamento</b-button
+        >Crear Instrumento médico</b-button
       >
-      <b-button variant="success" v-else @click="updateMedicament"
-        >Guardar Medicamento</b-button
+      <b-button variant="success" v-else @click="updateMedicalInstrument"
+        >Guardar Instrumento médico</b-button
       >
       <b-button type="reset" variant="danger">Limpiar formulario</b-button>
     </b-form>
 
-    <b-table striped hover :items="medicaments" :fields="headers">
+    <b-table striped hover :items="medicalInstruments" :fields="headers">
       <template #cell(Opciones)="row">
-        <b-button size="sm" @click="loadMedicament(row)" class="mr-2">
-          Modificar Medicamento
+        <b-button size="sm" @click="loadmedicalInstrument(row)" class="mr-2">
+          Modificar Instrumento Médico
         </b-button>
-        <b-button size="sm" @click="deleteMedicament(row)" class="mr-2">
-          Eliminar Medicamento
+        <b-button size="sm" @click="deletemedicalInstruments(row)" class="mr-2">
+          Eliminar Instrumento Médico
         </b-button>
       </template>
     </b-table>
@@ -81,9 +71,9 @@ export default {
   // Información a utilizar
   data() {
     return {
-      headers: ["medicamentName", "concentration", "quantity", "price", "Opciones"],
-      medicaments: [],
-      medicament: {},
+      headers: ["instrumentName", "quantity", "price", "Opciones"],
+      medicalInstruments: [],
+      medicalInstrument: {},
       editing: false,
       universidades: ["Universidad de Medellin", "Universidad de Antioquia"],
       message: "",
@@ -93,7 +83,7 @@ export default {
   // Método antes de que cargue la página
   beforeMount() {
      this.loadHeader();
-    this.loadMedicaments();
+    this.loadMedicalInstruments();
 
   },
   // Métodos
@@ -102,43 +92,43 @@ export default {
       let token = localStorage.getItem("token");
       this.opcionesAxios = { headers: { token } };
     },
-    async loadMedicaments() {
+    async loadMedicalInstruments() {
 
       // Cargar los usuarios de la base de datos
-      const url = "http://localhost:3001/api/v1/medicaments";
+      const url = "http://localhost:3001/api/v1/medical_instruments";
       let { data } = await this.$axios.get(url, this.opcionesAxios);
       console.log(data);
       if (data.ok === true) {
-        this.medicaments = data.info;
+        this.medicalInstruments = data.info;
       } else {
         alert("No se cargaron los medicamentos");
       }
     },
-    async createMedicament(event) {
+    async createMedicalInstruments(event) {
       event.preventDefault();
-      const url = "http://localhost:3001/api/v1/medicaments";
-      let { data } = await this.$axios.post(url, this.medicament, this.opcionesAxios);
+      const url = "http://localhost:3001/api/v1/medical_instruments";
+      let { data } = await this.$axios.post(url, this.medicalInstrument, this.opcionesAxios);
       this.$swal.fire("Creado.", data.message, "success");
-      this.loadMedicaments();
+      this.loadMedicalInstruments();
     },
-    async updateMedicament(event) {
+    async updateMedicalInstrument(event) {
       event.preventDefault();
-      const url = `http://localhost:3001/api/v1/medicaments/${this.medicament._id}`;
-      let { data } = await this.$axios.put(url, this.medicament, this.opcionesAxios);
+      const url = `http://localhost:3001/api/v1/medical_instruments/${this.medicalInstrument._id}`;
+      let { data } = await this.$axios.put(url, this.medicalInstrument, this.opcionesAxios);
       console.log(data);
       this.$swal.fire("Actualizado.", data.message, "success");
       this.resetForm();
-      this.loadMedicaments();
+      this.loadMedicalInstruments();
     },
-    loadMedicament(medicament) {
+    loadmedicalInstrument(medicalInstrument) {
       this.editing = true;
-      this.medicament = Object.assign({}, medicament.item);
+      this.medicalInstrument = Object.assign({}, medicalInstrument.item);
     },
     resetForm() {
       this.editing = false;
-      this.medicament = {};
+      this.medicalInstrument = {};
     },
-    async deleteMedicament({ item }) {
+    async deletemedicalInstruments({ item }) {
       this.$swal
         .fire({
           title: "¿Esta seguro de eliminar?",
@@ -152,9 +142,9 @@ export default {
         })
         .then(async (result) => {
           if (result.value == true) {
-            const url = `http://localhost:3001/api/v1/medicaments/${item._id}`;
+            const url = `http://localhost:3001/api/v1/medical_instruments/${item._id}`;
             let { data } = await this.$axios.delete(url, this.opcionesAxios);
-            this.loadMedicaments();
+            this.loadMedicalInstruments();
             this.$swal.fire("Eliminado!", data.message, "success");
           }
         });
