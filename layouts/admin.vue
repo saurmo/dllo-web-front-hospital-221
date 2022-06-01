@@ -7,9 +7,9 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item to="/medical-instruments">Instrumentos Médicos</b-nav-item>
-          <b-nav-item to="/medicaments">Medicamentos</b-nav-item>
-          <b-nav-item to="/invoices">Facturación</b-nav-item>
+          <b-nav-item to="/hospitalizacion/consultinRoom.vue">Consulting Room</b-nav-item>
+          <b-nav-item to="/hospitalizacion/hall.vue">Hall</b-nav-item>
+          <b-nav-item to="/hospitalizacion/clinicHistory.vue">Clinic History</b-nav-item>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
