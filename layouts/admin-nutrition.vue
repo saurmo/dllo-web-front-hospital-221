@@ -114,6 +114,12 @@ export default {
   border-color: #92ba92;
 }
 
+.buttons-form {
+  /*margin-left: 50px;*/
+  margin: 25px 25px 25px 80px ;
+  padding-right: 50px;
+}
+
 .title {
   color: #525e76;
 }

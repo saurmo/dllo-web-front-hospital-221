@@ -258,7 +258,9 @@ export default {
             "error"
           );
         } else if (error.response.status == 401) {
+          this.$router.push("/");
           await this.$swal.fire("Error.", " La sesión expiró", "error");
+
         } else {
           await this.$swal.fire("Error", "contact the administrator", "error");
         }
@@ -298,6 +300,7 @@ export default {
             "error"
           );
         } else if (error.response.status == 401) {
+          this.$router.push("/");
           await this.$swal.fire("Error.", " La sesión expiró", "error");
         } else {
           await this.$swal.fire("Error", "contact the administrator", "error");
@@ -336,6 +339,7 @@ export default {
                   "error"
                 );
               } else if (error.response.status == 401) {
+                this.$router.push("/");
                 await this.$swal.fire("Error.", " La sesión expiró", "error");
               } else {
                 await this.$swal.fire(
@@ -376,6 +380,7 @@ export default {
             "error"
           );
         } else if (error.response.status == 401) {
+          this.$router.push("/");
           await this.$swal.fire("Error.", " La sesión expiró", "error");
         } else {
           await this.$swal.fire("Error", "contact the administrator", "error");

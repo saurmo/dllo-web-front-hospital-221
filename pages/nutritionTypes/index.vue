@@ -48,6 +48,8 @@
                 id="input-2"
                 v-model="nutritionType.description"
                 placeholder="Enter description"
+                rows="3"
+                max-rows="6"
               ></b-form-textarea>
             </b-form-group>
           </div>
@@ -188,6 +190,7 @@ export default {
             "error"
           );
         } else if (error.response.status == 401) {
+          this.$router.push("/");
           await this.$swal.fire("Error.", " La sesión expiró", "error");
         } else {
           await this.$swal.fire("Error", "contact the administrator", "error");
@@ -227,6 +230,7 @@ export default {
             "error"
           );
         } else if (error.response.status == 401) {
+          this.$router.push("/");
           await this.$swal.fire("Error.", " La sesión expiró", "error");
         } else {
           await this.$swal.fire("Error", "contact the administrator", "error");
@@ -274,6 +278,7 @@ export default {
                   "error"
                 );
               } else if (error.response.status == 401) {
+                this.$router.push("/");
                 await this.$swal.fire("Error.", " La sesión expiró", "error");
               } else {
                 await this.$swal.fire(
@@ -313,9 +318,4 @@ export default {
   background-color: #efefef;
   border: solid;
 } */
-
-.buttons-form {
-  margin: 25px;
-  padding-right: 50px;
-}
 </style>

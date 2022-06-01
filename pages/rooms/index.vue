@@ -1,82 +1,103 @@
 <template>
   <b-container>
-    <h1>Rooms</h1>
+    <b-col cols="4" offset="1">
+      <h2 class="title">Rooms</h2>
+    </b-col>
+    <br />
     <!-- Creacion del formulario -->
-    <b-form @submit="createroom" @reset="resetForm">
-      <div class="inputs">
-        <div class="input-data">
-          <b-form-group
-            id="input-group-1"
-            label="Room code:"
-            label-for="input-1"
-          >
-            <b-form-input
-              id="input-1"
-              :disabled="editing"
-              v-model="room.roomCode"
-              placeholder="Enter room code"
-              type="number"
-              pattern="[0-9]+"
-            ></b-form-input>
-          </b-form-group>
-        </div>
-        <div class="input-data">
-          <b-form-group id="input-group-2" label="Number:" label-for="input-2">
-            <b-form-input
-              id="input-2"
-              :disabled="editing"
-              v-model="room.roomNumber"
-              placeholder="Enter number of room"
-              type="number"
-              pattern="[0-9]+"
-            ></b-form-input>
-          </b-form-group>
-        </div>
-        <div class="input-data">
-          <b-form-group
-            id="input-group-2"
-            label="id Hall:"
-            description="Select Id Hall"
-            label-for="input-2"
-          >
-           <b-form-select
+    <div class="frm">
+      <b-form @submit="createroom" @reset="resetForm">
+        <div class="inputs">
+          <div class="input-data">
+            <b-form-group
+              id="input-group-1"
+              label="Room code:"
+              label-for="input-1"
+            >
+              <b-form-input
+                id="input-1"
+                :disabled="editing"
+                v-model="room.roomCode"
+                placeholder="Enter room code"
+                type="number"
+                pattern="[0-9]+"
+              ></b-form-input>
+            </b-form-group>
+          </div>
+          <div class="input-data">
+            <b-form-group
+              id="input-group-2"
+              label="Number:"
+              label-for="input-2"
+            >
+              <b-form-input
+                id="input-2"
+                v-model="room.roomNumber"
+                placeholder="Enter number of room"
+                type="number"
+                pattern="[0-9]+"
+              ></b-form-input>
+            </b-form-group>
+          </div>
+          <div class="input-data">
+            <b-form-group
+              id="input-group-2"
+              label="id Hall:"
+              description="Select Id Hall"
+              label-for="input-2"
+            >
+              <b-form-select
                 id="hall-type"
-                v-model="room.idHall"                
+                v-model="room.idHall"
                 :options="hall"
-                
+                :disabled="editing"
                 text-field="idConsultingRoom"
                 value-field="idConsultingRoom"
               ></b-form-select>
-          </b-form-group>
+            </b-form-group>
+          </div>
         </div>
-      </div>
-      <br />
-      <!-- Actions -->
-      <b-button type="submit" variant="success" v-if="!editing"
-        >CREATE</b-button
-      >
-      <b-button variant="success" v-else @click="updaterooms"
-        >SAVE</b-button
-      >
-      <b-button type="reset" variant="danger">CANCEL</b-button>
-    </b-form>
+        <br />
+        <!-- Actions -->
+        <b-button
+          type="submit"
+          variant="success"
+          v-if="!editing"
+          class="buttons-form myPrimary"
+          >CREATE</b-button
+        >
+        <b-button
+          variant="success"
+          v-else
+          @click="updaterooms"
+          class="buttons-form mySuccess"
+          >SAVE</b-button
+        >
+        <b-button type="reset" variant="danger" class="buttons-form"
+          >CANCEL</b-button
+        >
+      </b-form>
+    </div>
 
     <b-table
+      sticky-header
       bordered
       striped
       hover
+      fixed
       :items="rooms"
       :fields="headers"
       class="table-data"
+      head-variant="dark"
     >
       <template #cell(options)="row">
         <b-button
           size="sm"
           @click="loadroom(row)"
-          class="mr-2"
+          class="mr-2 myPrimary"
           variant="primary"
         >
-          UPDATE
+          MODIFY
         </b-button>
         <b-button
           size="sm"
@@ -92,20 +113,14 @@
 </template>
 <script>
 export default {
-  layout: "admin",
-  //components: { alerts },
+  layout: "admin-nutrition",
   // Información a utilizar
   data() {
     return {
-      headers: [
-        "roomCode",
-        "roomNumber",
-        "idHall",
-        "options",
-      ],
+      headers: ["roomCode", "roomNumber", "idHall", "options"],
       rooms: [],
       room: {},
-      hall:[],
+      hall: [],
       editing: false,
       message: "",
       opcionesAxios: null,
@@ -141,20 +156,36 @@ export default {
     },
     async createroom(event) {
       event.preventDefault();
-      const url = "http://localhost:3001/api/v1/rooms";
-      let { data } = await this.$axios.post(
-        url,
-        this.room,
-        this.opcionesAxios
-      );
-      this.message = data.message;
-      if (data.ok == true) {
-        this.$swal.fire(data.message, data.info, "success");
-      } else {
-        this.$swal.fire(data.message, data.info, "error");
+      try {
+        const url = "http://localhost:3001/api/v1/rooms";
+        let { data } = await this.$axios.post(
+          url,
+          this.room,
+          this.opcionesAxios
+        );
+        this.message = data.message;
+        if (data.ok == true) {
+          this.$swal.fire(data.message, data.info, "success");
+        } else {
+          this.$swal.fire(data.message, data.info, "error");
+        }
+        this.loadrooms();
+        this.resetForm();
+      } catch (error) {
+        if (error.message == "Network Error") {
+          await this.$swal.fire(
+            "Sorry",
+            "A problem occurred while trying to connect to the server," +
+              " please reload the page or contact the administrator",
+            "error"
+          );
+        } else if (error.response.status == 401) {
+          this.$router.push("/");
+          await this.$swal.fire("Error.", " La sesión expiró", "error");
+        } else {
+          await this.$swal.fire("Error", "contact the administrator " + error.message, "error");
+        }
       }
-      this.loadrooms();
-      this.resetForm();
     },
     async updaterooms(event) {
       event.preventDefault();
@@ -180,11 +211,19 @@ export default {
         this.resetForm();
         this.loadrooms();
       } catch (error) {
-        this.$swal.fire(
-          "ERROR",
-          "An error has ocurred with the server",
-          "error"
-        );
+        if (error.message == "Network Error") {
+          await this.$swal.fire(
+            "Sorry",
+            "A problem occurred while trying to connect to the server," +
+              " please reload the page or contact the administrator",
+            "error"
+          );
+        } else if (error.response.status == 401) {
+          this.$router.push("/");
+          await this.$swal.fire("Error.", " La sesión expiró", "error");
+        } else {
+          await this.$swal.fire("Error", "contact the administrator", "error");
+        }
       }
     },
     loadroom(room) {
@@ -202,22 +241,42 @@ export default {
           text: "It can not be possible to recover the data after doing this.",
           type: "warning",
           showCancelButton: true,
-          confirmButtonColor: "#3085d6",
+          confirmButtonColor: "#525e76",
           cancelButtonColor: "#d33",
           confirmButtonText: "Yes, delete!",
           cancelButtonText: "Cancel",
         })
         .then(async (result) => {
           if (result.value == true) {
-            const url = `http://localhost:3001/api/v1/rooms/${item.roomCode}`;
-            let { data } = await this.$axios.delete(url, this.opcionesAxios);
-            if (data.ok == true) {
-              this.$swal.fire(data.message, data.info, "success");
-            } else {
-              this.$swal.fire(data.message, data.info, "error");
+            try {
+              const url = `http://localhost:3001/api/v1/rooms/${item.roomCode}`;
+              let { data } = await this.$axios.delete(url, this.opcionesAxios);
+              if (data.ok == true) {
+                this.$swal.fire(data.message, data.info, "success");
+              } else {
+                this.$swal.fire(data.message, data.info, "error");
+              }
+              this.loadrooms();
+              this.$swal.fire("Deleted!", data.message, "success");
+            } catch (error) {
+              if (error.message == "Network Error") {
+                await this.$swal.fire(
+                  "Sorry",
+                  "A problem occurred while trying to connect to the server," +
+                    " please reload the page or contact the administrator",
+                  "error"
+                );
+              } else if (error.response.status == 401) {
+                this.$router.push("/");
+                await this.$swal.fire("Error.", " La sesión expiró", "error");
+              } else {
+                await this.$swal.fire(
+                  "Error",
+                  "contact the administrator",
+                  "error"
+                );
+              }
             }
-            this.loadrooms();
-            this.$swal.fire("Deleted!", data.message, "success");
           }
         });
     },
@@ -227,7 +286,7 @@ export default {
 <style>
 .table-data {
   margin-top: 20px;
-  border: solid;
+  /*border: solid;*/
 }
 
 .input-data {
