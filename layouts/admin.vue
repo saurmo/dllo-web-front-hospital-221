@@ -7,9 +7,9 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item to="/modulo1">Módulo 1</b-nav-item>
-          <b-nav-item to="/modulo2">Módulo 2</b-nav-item>
-          <b-nav-item to="/modulo3">Módulo 3</b-nav-item>
+          <b-nav-item to="/hospitalizacion/consultinRoom.vue">Consulting Room</b-nav-item>
+          <b-nav-item to="/hospitalizacion/hall.vue">Hall</b-nav-item>
+          <b-nav-item to="/hospitalizacion/clinicHistory.vue">Clinic History</b-nav-item>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
