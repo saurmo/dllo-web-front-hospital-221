@@ -1,12 +1,12 @@
 <template>
     <b-container>
-        <div>
+    <div>
         <b-navbar toggleable="lg" type="dark" variant="info">
             <b-navbar-brand>HOSPITAL</b-navbar-brand>
             <b-navbar-nav class="ml-auto">
-                <b-nav-item href="http://localhost:3000/CitasMedicas/Patients" active>Patients</b-nav-item>
-                <b-nav-item href="http://localhost:3000/CitasMedicas/AppointmentsTypes"> Appointments Types</b-nav-item>
-                <b-nav-item href="http://localhost:3000/CitasMedicas/Appointments">Appointments</b-nav-item>
+                <b-nav-item href="http://localhost:3000/admin/CitasMedicas/Patients">Patients</b-nav-item>
+                <b-nav-item href="http://localhost:3000/admin/CitasMedicas/AppointmentsTypes" >Appointments Types</b-nav-item>
+                <b-nav-item href="http://localhost:3000/admin/CitasMedicas/Appointments" active>Appointments</b-nav-item>
             </b-navbar-nav>
         </b-navbar>
     </div>
@@ -199,7 +199,7 @@ export default {
             let token = localStorage.getItem("token");
             this.opcionesAxios = { headers: { token } };
         },
-        async loadAppointmentsTypes() {
+        async loadPatients  () {
         try {
             let url = config.API_HOST + "/Patients";
             let { data } = await this.$axios.get(url, this.opcionesAxios);
@@ -286,7 +286,6 @@ export default {
         async updatePatients(id) {
         try {
             let url = config.API_HOST + "/Patients/"+id;
-            let idpatient1 = document.getElementById('CodeU').value
             let name1 =document.getElementById('NameU').value
             let lastname1 = document.getElementById('lastnameU').value
             let blodType1 = document.getElementById('blodTypeU').value
@@ -310,7 +309,7 @@ export default {
                     }, this.opcionesAxios)
 
                 await this.$swal.fire("Registrado Correctamente", '', "success");
-                await this.loadAppointmentsTypes();
+                await this.loadPatients();
             }
 
 

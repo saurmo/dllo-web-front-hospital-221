@@ -1,19 +1,15 @@
 <template>
     <b-container>
-
     <div>
         <b-navbar toggleable="lg" type="dark" variant="info">
             <b-navbar-brand>HOSPITAL</b-navbar-brand>
-
             <b-navbar-nav class="ml-auto">
-                <b-nav-item href="http://localhost:3000/CitasMedicas/Patients">Patients</b-nav-item>
-                <b-nav-item href="http://localhost:3000/CitasMedicas/AppointmentsTypes" active>Appointments Types</b-nav-item>
-                <b-nav-item href="http://localhost:3000/CitasMedicas/Appointments">Appointments</b-nav-item>
+                <b-nav-item href="http://localhost:3000/admin/CitasMedicas/Patients">Patients</b-nav-item>
+                <b-nav-item href="http://localhost:3000/admin/CitasMedicas/AppointmentsTypes" active>Appointments Types</b-nav-item>
+                <b-nav-item href="http://localhost:3000/admin/CitasMedicas/Appointments">Appointments</b-nav-item>
             </b-navbar-nav>
-
         </b-navbar>
     </div>
-
     <center>
         <div class="mx-auto mt-5" max-width="1280" elevation="0"></div>
         <h1>Appointments Types</h1>
@@ -39,8 +35,8 @@
                         <input required value="" type="text" id="passwordR" class="form-control"/>
                     </div>
                     <center>
-                        <button @click="$bvModal.hide('modalR')" class="btn btn-danger">Cancelar</button>
-                        <button  @click.prevent="createAppointmentsTypes()" class="btn btn-success">Crear</button> 
+                        <button @click="$bvModal.hide('modalR')" class="btn btn-danger">Cancel</button>
+                        <button  @click.prevent="createAppointmentsTypes()" class="btn btn-success">Save</button> 
                     </center>
                     </form>
                 </div>
@@ -68,8 +64,8 @@
                         <input required :value='DescriptionA' type="text" id="passwordU" class="form-control"/>
                     </div>
                     <center>
-                        <button @click="$bvModal.hide('modalU')" class="btn btn-danger">Cancelar</button>
-                        <button @click.prevent="updateAppointmentsTypes(idA)" type="submit" class="btn btn-success">Crear</button> 
+                        <button @click="$bvModal.hide('modalU')" class="btn btn-danger">Cancel</button>
+                        <button @click.prevent="updateAppointmentsTypes(idA)" type="submit" class="btn btn-success">Save</button> 
                     </center>
                     </form>
                 </div>
@@ -91,7 +87,7 @@
             <th scope="col">Name</th>
             <th scope="col">Description</th>
             <th scope="col">Edit</th>
-            <th scope="col">elete</th>
+            <th scope="col">Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -122,17 +118,23 @@ export default {
         idA: "",
         codeA: "",
         NameA: "",
-        DescriptionA: "" 
+        DescriptionA: "",
+        opcionesAxios: null,
     };
   },
   beforeMount() {
+    this.loadHeader();
     this.loadAppointmentsTypes();
   },
     methods: {
+        async loadHeader() {
+            let token = localStorage.getItem("token");
+            this.opcionesAxios = { headers: { token } };
+        },
         async loadAppointmentsTypes() {
         try {
             let url = config.API_HOST + "/AppointmentsTypes";
-            let { data } = await this.$axios.get(url);
+            let { data } = await this.$axios.get(url, this.opcionesAxios);
             this.invoces = data;
             } catch (error) {
                 await this.$swal.fire("API Rest Disconnected", "", "Danger");
@@ -144,7 +146,7 @@ export default {
             let CodeR = document.getElementById('CodeR').value
             let NameR = document.getElementById('NameR').value
             let passwordR = document.getElementById('passwordR').value
-            let { data } = await this.$axios.get(url);
+            let { data } = await this.$axios.get(url, this.opcionesAxios);
             this.invoces = data;
 
             if(!CodeR && !NameR && !passwordR){
@@ -163,7 +165,7 @@ export default {
                          idAppointmentType: CodeR,
                          name: NameR,
                          description: passwordR,
-                    })
+                    }, this.opcionesAxios)
                     await this.$swal.fire("Successful Registration", '', "success");
                     await this.loadAppointmentsTypes();
                 }else{
@@ -188,7 +190,7 @@ export default {
                     idAppointmentType: document.getElementById('CodeU').value,
                     name: nameU,
                     description: passwordU
-                })
+                }, this.opcionesAxios)
                 await this.$swal.fire("Successful Registration", '', "success");
                 await this.loadAppointmentsTypes();
             }
@@ -214,7 +216,7 @@ export default {
                 return;
                 }
                 let url = config.API_HOST + "/AppointmentsTypes/";
-                let { data } = await this.$axios.delete(url+id);
+                let { data } = await this.$axios.delete(url+id, this.opcionesAxios);
                 const response = await data.info;
                 if (response) {
                    await this.$swal.fire("Successful deletion", '', "success")
