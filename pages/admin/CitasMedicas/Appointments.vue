@@ -4,9 +4,9 @@
         <b-navbar toggleable="lg" type="dark" variant="info">
             <b-navbar-brand>HOSPITAL</b-navbar-brand>
             <b-navbar-nav class="ml-auto">
-                <b-nav-item href="http://localhost:3000/CitasMedicas/Patients">Patients</b-nav-item>
-                <b-nav-item href="http://localhost:3000/CitasMedicas/AppointmentsTypes" active>Appointments Types</b-nav-item>
-                <b-nav-item href="http://localhost:3000/CitasMedicas/Appointments">Appointments</b-nav-item>
+                <b-nav-item href="http://localhost:3000/admin/CitasMedicas/Patients">Patients</b-nav-item>
+                <b-nav-item href="http://localhost:3000/admin/CitasMedicas/AppointmentsTypes" >Appointments Types</b-nav-item>
+                <b-nav-item href="http://localhost:3000/admin/CitasMedicas/Appointments" active>Appointments</b-nav-item>
             </b-navbar-nav>
         </b-navbar>
     </div>  
