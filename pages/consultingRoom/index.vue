@@ -4,7 +4,7 @@
 
     <b-form @submit="createConsultingRoom" @reset="resetForm">
       <b-form-group id="igId" label="Consulting room's ID" label-for="ilId">
-        <b-form-input id="iID" v-model="consultingRoom.id" type="text" placeholder="Consulting Room's ID" required> </b-form-input>
+        <b-form-input id="iID" v-model="consultingRoom.idConsultingRoom" type="text" placeholder="Consulting Room's ID" required> </b-form-input>
       </b-form-group>
 
       <b-form-group id="igHall" label="Hall" label-for="ilHall">
@@ -12,7 +12,7 @@
       </b-form-group>
 
       <b-form-group id="igAvailability" label="Availability" label-for="ilAvailability">
-        <b-form-input id="iAvailability" v-model="consultingRoom.availability" type="boolean" placeholder="Availability" required> </b-form-input>
+        <b-form-input id="iAvailability" v-model="consultingRoom.availability" type="text" placeholder="Availability" required> </b-form-input>
       </b-form-group>
 
       <br />
@@ -27,9 +27,9 @@
       <b-button type="reset" variant="danger">Clear all</b-button>
     </b-form>
 
-    <b-table striped hover :items="consultingRoom" :fields="headers">
+    <b-table striped hover :items="consultingRooms" :fields="headers">
       <template #cell(Opciones)="row">
-        <b-button size="sm" @click="getConsultingRoom(row)" class="mr-2">
+        <b-button size="sm" @click="getConsultingRooms(row)" class="mr-2">
           Update Consulting Room
         </b-button>
         <b-button size="sm" @click="deleteConsultingRoom(row)" class="mr-2">
@@ -49,7 +49,7 @@ export default {
 
   data() {
     return {
-      headers: ["Id", "hall", "Availability"],
+      headers: ["idConsultingRoom", "hall", "availability", "Opciones"],
       consultingRooms: [],
       consultingRoom: {},
       editing: false,
@@ -80,7 +80,7 @@ export default {
     },
     async createConsultingRoom(event) {
       event.preventDefault();
-      const url = "http://localhost:3001/api/v1/medicaments";
+      const url = "http://localhost:3001/api/v1/consultingRooms";
       let { data } = await this.$axios.post(url, this.consultingRoom, this.opcionesAxios);
       this.$swal.fire(data.message, "Create success");
       this.getConsultingRooms();
@@ -116,7 +116,7 @@ export default {
         })
         .then(async (result) => {
           if (result.value == true) {
-            const url = `http://localhost:3001/api/v1/consultingRoom/${item._id}`;
+            const url = `http://localhost:3001/api/v1/consultingRooms/${item._id}`;
             let { data } = await this.$axios.delete(url, this.opcionesAxios);
             this.getConsultingRooms();
             this.$swal.fire(data.message, "Delete success");
