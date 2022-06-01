@@ -103,4 +103,26 @@ export default {
   width: 20px;
   height: 20px;
 }
+
+.myPrimary {
+  background-color: #525e76;
+  border-color: #525e76;
+}
+
+.mySuccess {
+  background-color: #92ba92;
+  border-color: #92ba92;
+}
+
+.title {
+  color: #525e76;
+}
+
+.frm {
+  border-width: 1px;
+  border-color: #789387;
+  border-style: solid;
+  border-radius: 10px;
+  background-color: #efefef;
+}
 </style>

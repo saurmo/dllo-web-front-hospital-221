@@ -58,7 +58,7 @@ export default {
 
           //Redireccionar al usuario de acuerdo su rol a una página
           if (rol === "ADMIN") {
-            this.$router.push("./nutritionTypes");
+            this.$router.push("./admin/dashboard");
           } else {
             this.$router.push("/cliente/dashboard");
           }

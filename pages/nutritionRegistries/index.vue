@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <b-col cols="4" offset="1">
-      <h2 id="title">Nutrition Registry</h2>
+      <h2 class="title">Nutrition Registry</h2>
     </b-col>
     <br />
     <!-- Creación de formulario -->
@@ -308,9 +308,10 @@ export default {
       this.$swal
         .fire({
           title: "Are you sure?",
+          text: "It can not be possible to recover the data after doing this.",
           type: "warning",
           showCancelButton: true,
-          confirmButtonColor: "#3085d6",
+          confirmButtonColor: "#525e76",
           cancelButtonColor: "#d33",
           confirmButtonText: "Yes, delete!",
           cancelButtonText: "Cancel",
@@ -356,11 +357,13 @@ export default {
         if (data.ok == true) {
           this.onePatient = true;
           this.registries = data.info;
-          await this.$swal.fire(
-            "Consulted!",
-            "The patient's data was correctly consulted",
-            "success"
-          );
+          await this.$swal.fire({
+            title: "Consulted!",
+            text:"The patient's data was correctly consulted",
+            icon:"success",
+            showConfirmButton:false,
+            timer:1500
+          });
         } else {
           await this.$swal.fire("Error!", data.info, "error");
         }
@@ -397,25 +400,6 @@ export default {
 };
 </script>
 <style>
-
-.myPrimary {
-  background-color: #525e76;
-  border-color: #525e76;
-}
-
-.mySuccess {
-  background-color: #92ba92;
-  border-color: #92ba92;
-}
-
-.frm {
-  border-width: 1px;
-  border-color: #789387;
-  border-style: solid;
-  border-radius: 10px;
-  background-color: #efefef;
-}
-
 .rowForm {
   margin-top: 20px;
 }
@@ -426,9 +410,5 @@ export default {
 
 .formBtn {
   margin-right: 10px;
-}
-
-#title {
-  color: #525e76;
 }
 </style>
